@@ -1,0 +1,57 @@
+Project: cyber_security_bottttt
+
+Overview
+
+This is a small WPF app targeting .NET 10. It includes a VoicePlayer helper that looks for audio files in an Audio folder inside the application output and plays them at runtime.
+
+Requirements
+
+- .NET 10 (net10.0-windows)
+- WPF enabled (UseWPF = true)
+- Recommended IDE: Visual Studio 2026 (or newer)
+
+How to add a voice file
+
+1. In Solution Explorer add a new folder to the project named "Audio".
+2. Add your audio file (recommended names: voice.wav or voice.mp3) to the Audio folder (Add -> Existing Item).
+3. Select the file in Solution Explorer and set these properties:
+   - Build Action = Content
+   - Copy to Output Directory = Copy if newer (or Copy always)
+4. Rebuild the project. The file should appear under the app output folder, for example: bin\Debug\net10\Audio\voice.wav
+
+Supported formats
+
+- WAV files are played using System.Media.SoundPlayer.
+- MP3, WMA, AAC and other formats are played using System.Windows.Media.MediaPlayer. MediaPlayer relies on platform codecs; if playback fails convert to WAV or use a library such as NAudio.
+
+How to use
+
+From anywhere in the WPF app you can call:
+
+var player = new cyber_security_bottttt.VoicePlayer();
+player.PlayVoice();
+
+This will attempt to play a preferred file (voice.wav, voice.mp3, voice.wma, voice.aac, voice.m4a) inside the Audio folder, or any supported audio file it finds there.
+
+Troubleshooting
+
+- Confirm the audio file exists in the output folder after build: bin\Debug\net10\Audio\
+- If you see a MessageBox labeled "Trying to play: <path>", verify the shown path points to an existing file.
+- If MediaPlayer reports "Media failed" the file may be using an unsupported codec on your machine. Try converting to WAV or MP3.
+- For WAV playback issues try PlaySync during debugging to confirm the file is readable.
+- If playback still fails consider using NAudio for broader codec support.
+
+Notes
+
+- The VoicePlayer keeps a static MediaPlayer instance so playback won't be stopped by garbage collection.
+- If you want to use an embedded resource instead of a content file, update VoicePlayer.cs to open the stream from resources.
+
+If you want, tell me the exact text or additional sections to include and I will update this file accordingly.
+
+References
+
+Microsoft, 2024. MediaPlayer class - .NET. Available at: https://learn.microsoft.com/dotnet/api/system.windows.media.mediaplayer (Accessed: 29 May 2026).
+
+Microsoft, 2024. SoundPlayer class - .NET. Available at: https://learn.microsoft.com/dotnet/api/system.media.soundplayer (Accessed: 29 May 2026).
+
+Hennig, M., 2023. NAudio - audio and MIDI library for .NET. Available at: https://github.com/naudio/NAudio (Accessed: 29 May 2026).
